@@ -20,8 +20,10 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
     private Map<String, Cart> theCart = new HashMap();
     private MeterRegistry meterRegistry;
 
-    public ShoppingCartController(CartService cartService) {
+    @Autowired
+    public ShoppingCartController(CartService cartService, MeterRegistry meterRegistry) {
         this.cartService = cartService;
+        this.meterRegistry = meterRegistry;
     }
 
     @GetMapping(path = "/cart/{id}")
