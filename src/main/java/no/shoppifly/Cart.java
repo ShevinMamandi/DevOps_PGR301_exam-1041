@@ -23,6 +23,11 @@ class Item {
 
     private String description;
     private int qty;
+
+    public Float getUnitPrice() {
+        return unitPrice;
+    }
+
     private Float unitPrice;
 
 }
