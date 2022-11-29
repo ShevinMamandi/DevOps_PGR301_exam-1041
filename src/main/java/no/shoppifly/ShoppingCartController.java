@@ -20,6 +20,7 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
     private Map<String, Cart> theCart = new HashMap();
     private MeterRegistry meterRegistry;
 
+
     @Autowired
     public ShoppingCartController(CartService cartService, MeterRegistry meterRegistry) {
         this.cartService = cartService;
@@ -38,7 +39,9 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
      */
     @PostMapping(path = "/cart/checkout")
     public String checkout(@RequestBody Cart cart) {
-        return cartService.checkout(cart);
+        String result = cartService.checkout(cart);
+        theCart.remove(cart.getId(), cart);
+        return result;
     }
 
     /**
@@ -51,6 +54,7 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
     @PostMapping(path = "/cart")
     public Cart updateCart(@RequestBody Cart cart) {
         meterRegistry.counter("create_cart").increment();
+        theCart.put(cart.getId(), cart);
         return cartService.update(cart);
     }
 
