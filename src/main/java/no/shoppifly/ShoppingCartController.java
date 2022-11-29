@@ -17,7 +17,7 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
 
     @Autowired
     private final CartService cartService;
-    private Map<String, Cart> theCart = new HashMap();
+    private HashMap<String, Cart> theCart = new HashMap();
     private MeterRegistry meterRegistry;
 
 
@@ -37,10 +37,12 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
      *
      * @return an order ID
      */
+    @Timed
     @PostMapping(path = "/cart/checkout")
     public String checkout(@RequestBody Cart cart) {
+        meterRegistry.counter("delete_cart").increment();
         String result = cartService.checkout(cart);
-        theCart.remove(cart.getId(), cart);
+        theCart.remove(cart.getId());
         return result;
     }
 
@@ -74,6 +76,15 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
         // Denne meter-typen "Gauge" rapporterer hvor mye penger som totalt finnes i banken
         Gauge.builder("cart_count", theCart,
                         b -> b.values().size()).register(meterRegistry);
+                        
+        
+       /* Gauge.builder("total_price", theBank,
+                        b -> b.values()
+                                .stream()
+                                .map(Account::getBalance)
+                                .mapToDouble(BigDecimal::doubleValue)
+                                .sum())
+                .register(meterRegistry);*/
     }
 
 }
