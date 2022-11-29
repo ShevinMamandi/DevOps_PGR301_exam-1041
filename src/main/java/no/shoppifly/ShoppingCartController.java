@@ -20,7 +20,6 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
     @Autowired
     private final CartService cartService;
     private HashMap<String, Cart> theCart = new HashMap();
-    private Timer productTimer;
     private MeterRegistry meterRegistry;
 
 
@@ -28,7 +27,6 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
     public ShoppingCartController(CartService cartService, MeterRegistry meterRegistry) {
         this.cartService = cartService;
         this.meterRegistry = meterRegistry;
-        productTimer = meterRegistry.timer("checkout_latency");
     }
 
     @GetMapping(path = "/cart/{id}")
@@ -42,16 +40,11 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
      * @return an order ID
      */
 
-    @Timed
+    @Timed("checkout_latency")
     @PostMapping(path = "/cart/checkout")
     public String checkout(@RequestBody Cart cart) {
-        long startTime = System.currentTimeMillis();
         meterRegistry.counter("delete_cart").increment();
         String result = cartService.checkout(cart);
-        // record time to execute the method
-        productTimer.record(Duration
-                .ofMillis(System.currentTimeMillis()
-                        - startTime));
         theCart.put(cart.getId(), cart);
         return result;
     }
@@ -86,12 +79,15 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
         // Denne meter-typen "Gauge" rapporterer hvor mye penger som totalt finnes i banken
         Gauge.builder("carts", cartService,
                         b -> b.getAllsCarts().size()).register(meterRegistry);
-        
+
         Gauge.builder("cartsvalue", cartService,
                         b -> b.total())
                 .register(meterRegistry);
 
         Gauge.builder("checkouts", theCart,
+                b -> b.values().size()).register(meterRegistry);
+
+        Gauge.builder("checkout_latency", theCart,
                 b -> b.values().size()).register(meterRegistry);
     }
 
