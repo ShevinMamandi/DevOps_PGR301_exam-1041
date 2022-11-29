@@ -74,17 +74,13 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
 
         // Denne meter-typen "Gauge" rapporterer hvor mye penger som totalt finnes i banken
-        Gauge.builder("cart_count", theCart,
+        Gauge.builder("carts", theCart,
                         b -> b.values().size()).register(meterRegistry);
                         
         
-       /* Gauge.builder("total_price", theBank,
-                        b -> b.values()
-                                .stream()
-                                .map(Account::getBalance)
-                                .mapToDouble(BigDecimal::doubleValue)
-                                .sum())
-                .register(meterRegistry);*/
+        Gauge.builder("cartsvalue", cartService,
+                        b -> b.total())
+                .register(meterRegistry);
     }
 
 }
