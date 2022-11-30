@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController()
 public class ShoppingCartController implements ApplicationListener<ApplicationReadyEvent> {
@@ -40,7 +41,7 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
      * @return an order ID
      */
 
-    @Timed("checkout_latency")
+    @Timed(value = "checkout_latency")
     @PostMapping(path = "/cart/checkout")
     public String checkout(@RequestBody Cart cart) {
         meterRegistry.counter("delete_cart").increment();
@@ -87,8 +88,8 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
         Gauge.builder("checkouts", theCart,
                 b -> b.values().size()).register(meterRegistry);
 
-        Gauge.builder("checkout_latency", theCart,
-                b -> b.values().size()).register(meterRegistry);
+       /* Gauge.builder("checkout_latency", theCart,
+                b -> b.values().size()).register(meterRegistry);*/
     }
 
 }
