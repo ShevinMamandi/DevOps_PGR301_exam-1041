@@ -1,5 +1,7 @@
 # PGR301-2022 DevOps
-
+* [![CI pipeline](https://github.com/ShevinMamandi/DevOps_PGR301_exam-1041/actions/workflows/ci.yml/badge.svg)](https://github.com/ShevinMamandi/DevOps_PGR301_exam-1041/actions/workflows/ci.yml)
+* [![Push Docker image to ECR](https://github.com/ShevinMamandi/DevOps_PGR301_exam-1041/actions/workflows/docker.yml/badge.svg)](https://github.com/ShevinMamandi/DevOps_PGR301_exam-1041/actions/workflows/docker.yml)
+* [![Terraform CloudWatch](https://github.com/ShevinMamandi/DevOps_PGR301_exam-1041/actions/workflows/cloudwatch_dashboard.yml/badge.svg)](https://github.com/ShevinMamandi/DevOps_PGR301_exam-1041/actions/workflows/cloudwatch_dashboard.yml)
 ## DEL1
 
 ### Beskriv med egne ord;
