@@ -16,7 +16,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: eu-west-1
       CANDIDATE_ID: 1041
-      CANDIDATE_EMAIL: shma005@student.kristiania.no.com
+      CANDIDATE_EMAIL: shma005@student.kristiania.no
     steps:
       - uses: actions/checkout@v3
       - name: Setup Terraform
