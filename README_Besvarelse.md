@@ -76,7 +76,7 @@ riktig tidspunkt til å release koden. Tanken er finne ut et tidspunkt som syste
 I dags vi ser at flere systemer kommer med nye release midt på natten eller i helgene som de har veldig lite 
 trafikk på. 
 I tillegg skal det være et tidspunkt i sprinten hvor utviklerne (noen av de) kan angripe rask feilene som 
-dukker opp i release tiden.
+dukker opp i release tiden. Også smallere release er enklere for å teste og har oversikt over.
 
 ## DEL2
 ## Oppgave 3
